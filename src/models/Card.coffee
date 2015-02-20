@@ -15,3 +15,4 @@ class window.Card extends Backbone.Model
     @set 'revealed', !@get 'revealed'
     @
 
+
