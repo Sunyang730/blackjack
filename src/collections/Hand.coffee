@@ -15,7 +15,19 @@ class window.Hand extends Backbone.Collection
   , 0
 
   stand: ->
+    # reveal dealer's first card
     @models[0].flip()
+    # check dealer's score
+    # if dealer's score < 17 then hit
+    @dealerHit @scores()
+
+
+  dealerHit: (currentScore) ->
+    if currentScore[0] < 17 or currentScore[1] < 17
+      @hit()
+      @dealerHit @scores()
+
+
 
 
 
