@@ -20,3 +20,4 @@ class window.App extends Backbone.Model
         @get('playerHand').isWinner = true
       else
         @get('dealerHand').isWinner = true
+

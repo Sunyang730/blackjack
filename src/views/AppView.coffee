@@ -7,6 +7,9 @@ class window.AppView extends Backbone.View
   '
   canHit: true
   canStand: true
+  handler: ->
+    @model.get('playerHand').on 'fail', =>
+      console.log 'FAIL'
 
   events:
     'click .hit-button': ->
@@ -25,16 +28,23 @@ class window.AppView extends Backbone.View
       @model.set 'dealerHand', @model.get('deck').dealDealer()
       @canHit = true
       @canStand = true
+      @listener()
       @render()
+
+  listener: ->
+      @model.get('playerHand').on 'fail', =>
+        console.log 'in On', @
+        @canHit = false
+        @canStand = false
+        @model.declareWinner()
+        @render()
 
 
   initialize: ->
     @render()
-    @model.get('playerHand').on 'fail', =>
-      @canHit = false
-      @canStand = false
-      @model.declareWinner()
-      @render()
+    @handler()
+    console.log 'init', @
+    @listener()
 
   render: ->
     @$el.children().detach()
