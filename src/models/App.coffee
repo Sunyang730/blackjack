@@ -11,10 +11,12 @@ class window.App extends Backbone.Model
 
 
   declareWinner: ->
-    if @get('playerHand').scores()[0] > 21
+    if @get('dealerHand').scores()[0] > 21
+      @get('playerHand').isWinner = true
+    else if @get('playerHand').scores()[0] > 21
       @get('dealerHand').isWinner = true
     else
-      if @get('playerHand').scores()[0] > @get('dealerHand').scores()[0] or @get('playerHand').scores()[1] > @get('dealerHand').scores()[1]
+      if @get('playerHand').scores()[0] > @get('dealerHand').scores()[0] or (@get('playerHand').scores()[1] > @get('dealerHand').scores()[1] && @get('playerHand').scores()[1] < 22)
         @get('playerHand').isWinner = true
       else
         @get('dealerHand').isWinner = true
