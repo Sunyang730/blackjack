@@ -4,18 +4,29 @@ class window.AppView extends Backbone.View
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
   '
-  hasStood = false
+  canHit: true
+  canStand: true
 
   events:
     'click .hit-button': ->
-      if !@hasStood
+      if @canHit
         @model.get('playerHand').hit()
     'click .stand-button': ->
-      @model.get('dealerHand').stand()
-      @hasStood = true
+      if @canStand
+        @canHit = false
+        @canStand = false
+        @model.get('dealerHand').stand()
+        @model.declareWinner()
+        @render()
+
 
   initialize: ->
     @render()
+    @model.get('playerHand').on 'fail', =>
+      @canHit = false
+      @canStand = false
+      @model.declareWinner()
+      @render()
 
   render: ->
     @$el.children().detach()
